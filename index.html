@@ -276,12 +276,68 @@
   .sign .rule { width: 120px; height: 2px; background: var(--papaya); border-radius: 2px; margin: 14px auto 0; opacity: 0.6; }
   .sign .tag { margin-top: 22px; font-size: 13px; color: var(--ink-soft); opacity: 0.65; }
 
+  /* ---- chars section ---- */
+  .chars-section { margin-top: 104px; }
+
+  .chars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .char-card {
+    background: var(--white);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s;
+  }
+  .char-card:hover { transform: translateY(-10px); box-shadow: 0 38px 76px -26px rgba(110,60,20,0.52); }
+
+  .char-card .char-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  .char-card .char-img-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--cream-deep), #ffd0a8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+  }
+
+  .char-card .char-info { padding: 14px 16px 18px; }
+
+  .char-card .char-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .char-card .char-series {
+    font-size: 12px;
+    color: var(--papaya);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
   @media (max-width: 720px) {
     .gallery { grid-template-columns: repeat(2, 1fr); }
     .card.wide, .card.tall, .card.art { grid-column: span 2; }
     .card.art .inner { flex-direction: column; gap: 18px; }
     .card.art img { width: 100%; max-width: 320px; }
     .card.art .note { text-align: center; padding: 0 6px; }
+    .chars-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -444,6 +500,81 @@
           <div class="nav-dots" id="dots"></div>
           <button class="nav-btn" id="next" aria-label="próximo">&#8594;</button>
         </div>
+      </div>
+    </section>
+
+    <section class="chars-section">
+      <div class="switch-header reveal">
+        <div class="eyebrow">parabéns, mais velha</div>
+        <h3>personagens com a <em>mesma idade</em> que você</h3>
+        <p>de universos completamente diferentes — mas todos tão marcantes quanto</p>
+      </div>
+      <div class="chars-grid">
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/16552013620565053323" alt="Light Yagami" />
+          <div class="char-info">
+            <div class="char-name">Light Yagami</div>
+            <div class="char-series">Death Note</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <div class="char-img-placeholder">🔫</div>
+          <div class="char-info">
+            <div class="char-name">Leon S. Kennedy</div>
+            <div class="char-series">Resident Evil</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/4533591012931452116" alt="Peter Parker" />
+          <div class="char-info">
+            <div class="char-name">Peter Parker</div>
+            <div class="char-series">MCU</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/5002029972681706703" alt="Baby" />
+          <div class="char-info">
+            <div class="char-name">Baby</div>
+            <div class="char-series">Baby Driver</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/4356182908949651550" alt="Ken Kaneki" />
+          <div class="char-info">
+            <div class="char-name">Ken Kaneki</div>
+            <div class="char-series">Tokyo Ghoul</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/17461513641821839625" alt="Nico Robin" />
+          <div class="char-info">
+            <div class="char-name">Nico Robin</div>
+            <div class="char-series">One Piece</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/3022245051324377077" alt="Asuka Langley Soryu" />
+          <div class="char-info">
+            <div class="char-name">Asuka Langley Soryu</div>
+            <div class="char-series">Neon Genesis Evangelion</div>
+          </div>
+        </div>
+
+        <div class="char-card reveal">
+          <img class="char-img" src="http://googleusercontent.com/image_collection/image_retrieval/10587249297219359984" alt="Gwen Stacy" />
+          <div class="char-info">
+            <div class="char-name">Gwen Stacy</div>
+            <div class="char-series">Homem-Aranha no Aranhaverso</div>
+          </div>
+        </div>
+
       </div>
     </section>
 
