@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Parabéns, moça! 🎉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@500;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #FFF6EC;
+    --cream-deep: #FBEAD6;
+    --papaya: #FF6A13;
+    --papaya-soft: #FF8A3D;
+    --ink: #2A211B;
+    --ink-soft: #6B5D52;
+    --white: #FFFFFF;
+    --shadow: 0 24px 60px -28px rgba(110, 60, 20, 0.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---- soft background glows ---- */
+  .bg-deco { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.5; }
+  .glow.a { width: 480px; height: 480px; background: #FFD7B0; top: -160px; left: -120px; }
+  .glow.b { width: 520px; height: 520px; background: #FFE0C4; bottom: -200px; right: -140px; opacity: 0.6; }
+
+  /* ---- floating hyperfocus icons (F1 / Star Wars / arte) ---- */
+  .floaters { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .floaters svg {
+    position: absolute;
+    color: var(--papaya);
+    opacity: 0.09;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    0%   { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50%  { transform: translateY(-26px) rotate(calc(var(--r, 0deg) + 8deg)); }
+    100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 0 28px 120px; }
+
+  /* ---- hero ---- */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 72px 0 48px;
+  }
+
+  .kicker {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(24px, 4vw, 36px);
+    color: var(--ink-soft);
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .anim .kicker { animation: rise 0.9s cubic-bezier(.2,.8,.2,1) 0.1s both; }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(60px, 15vw, 156px);
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .hero h1 .l1 { display: block; }
+  .anim .hero h1 .l1 { animation: rise 0.9s cubic-bezier(.2,.8,.2,1) 0.25s both; }
+  .hero h1 .l2 {
+    display: block;
+    color: var(--papaya);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .anim .hero h1 .l2 { animation: rise 0.9s cubic-bezier(.2,.8,.2,1) 0.42s both; }
+
+  .hero p {
+    max-width: 560px;
+    margin: 34px auto 0;
+    font-size: clamp(17px, 2.4vw, 21px);
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .anim .hero p { animation: rise 0.9s cubic-bezier(.2,.8,.2,1) 0.6s both; }
+  .hero p .hl { color: var(--papaya); font-weight: 600; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+
+  .scroll-hint {
+    margin-top: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    animation: float 2.4s ease-in-out 1.6s infinite;
+  }
+  .anim .scroll-hint { animation: rise 0.9s ease 0.85s both, float 2.4s ease-in-out 1.6s infinite; }
+  .scroll-hint .dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--white);
+    display: grid; place-items: center;
+    box-shadow: 0 6px 16px -6px rgba(110,60,20,0.4);
+    color: var(--papaya);
+    font-size: 16px;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  /* ---- confetti dots ---- */
+  .confetti { position: absolute; border-radius: 2px; }
+
+  /* ---- scroll reveal ---- */
+  .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(.2,.8,.2,1), transform 0.8s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ---- gallery ---- */
+  .gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; margin-top: 10px; }
+
+  .card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 14px 14px 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s, opacity 0.8s, translate 0.8s;
+  }
+  .card:hover { transform: translateY(-10px) rotate(var(--tilt, 0deg)) scale(1.012); box-shadow: 0 38px 76px -26px rgba(110,60,20,0.52); }
+  .card img { width: 100%; display: block; border-radius: 10px; object-fit: cover; }
+  .card .cap { font-family: 'Caveat', cursive; font-size: 25px; text-align: center; color: var(--ink-soft); margin-top: 12px; line-height: 1.1; }
+  .card .sub { font-size: 15px; text-align: center; color: var(--ink-soft); margin-top: 8px; line-height: 1.55; opacity: 0.85; }
+
+  .card.wide { grid-column: span 4; --tilt: -1deg; }
+  .card.tall { grid-column: span 2; --tilt: 1.5deg; }
+  .card.tall img { aspect-ratio: 696/928; }
+  .card.art  { grid-column: span 6; --tilt: 0deg; }
+  .card.art .inner { display: flex; align-items: center; gap: 30px; }
+  .card.art img { width: 320px; flex-shrink: 0; border-radius: 14px; }
+  .card.art .note { padding: 12px 18px 12px 6px; }
+  .card.art .note .big {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 4vw, 38px);
+    line-height: 1.12;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .card.art .note .big em { color: var(--papaya); }
+  .card.art .note p { font-size: 17px; line-height: 1.62; color: var(--ink-soft); }
+  .card.art .note .ps { margin-top: 14px; font-style: italic; font-size: 15px; color: var(--papaya-soft); }
+
+  /* ---- message block ---- */
+  .message { text-align: center; margin: 104px auto 0; max-width: 660px; }
+  .message .mark { font-family: 'DM Serif Display', serif; font-size: 80px; color: var(--papaya-soft); line-height: 0.5; opacity: 0.5; }
+  .message h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(26px, 4.4vw, 40px);
+    line-height: 1.38;
+    color: var(--ink);
+    margin: 24px 0 0;
+  }
+  .message h2 em { color: var(--papaya); font-style: italic; }
+
+  /* ---- play button ---- */
+  .play-wrap { text-align: center; margin-top: 56px; }
+  .play {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--ink);
+    color: var(--cream);
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 16px 34px -16px rgba(42,33,27,0.7);
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s, background 0.3s;
+  }
+  .play:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -16px rgba(42,33,27,0.8); background: #1e1813; }
+  .play .ic { width: 22px; height: 22px; display: grid; place-items: center; color: var(--papaya-soft); }
+
+  /* ---- switch carousel ---- */
+  .switch-section { margin-top: 104px; }
+  .switch-header { text-align: center; margin-bottom: 36px; }
+  .switch-header .eyebrow {
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--papaya); font-weight: 600; margin-bottom: 10px;
+  }
+  .switch-header h3 {
+    font-family: 'DM Serif Display', serif; font-weight: 400;
+    font-size: clamp(28px, 5vw, 44px); color: var(--ink); line-height: 1.1;
+  }
+  .switch-header h3 em { color: var(--papaya); font-style: italic; }
+  .switch-header p { margin-top: 10px; font-size: 16px; color: var(--ink-soft); line-height: 1.5; }
+
+  .carousel-wrap { position: relative; }
+  .carousel {
+    display: flex; gap: 18px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; padding: 12px 4px 20px;
+  }
+  .carousel::-webkit-scrollbar { display: none; }
+
+  .g-card {
+    flex: 0 0 220px; scroll-snap-align: start;
+    background: var(--white); border-radius: 20px;
+    padding: 22px 18px 20px;
+    box-shadow: 0 12px 36px -18px rgba(110,60,20,0.38);
+    display: flex; flex-direction: column; gap: 12px;
+    transition: transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s;
+    cursor: default;
+  }
+  .g-card:hover { transform: translateY(-7px); box-shadow: 0 24px 48px -18px rgba(110,60,20,0.52); }
+  .g-card .icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: grid; place-items: center;
+    font-size: 28px; flex-shrink: 0;
+  }
+  .g-card .g-name { font-weight: 700; font-size: 16px; line-height: 1.2; color: var(--ink); }
+  .g-card .g-genre {
+    font-size: 13px; color: var(--ink-soft);
+    background: var(--cream); border-radius: 999px;
+    padding: 4px 10px; width: fit-content; font-weight: 500;
+  }
+  .g-card .g-players { font-size: 13px; color: var(--ink-soft); margin-top: auto; display: flex; align-items: center; gap: 5px; }
+  .g-card .g-players .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--papaya); flex-shrink: 0; }
+
+  .carousel-nav { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; }
+  .nav-btn {
+    width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
+    background: var(--white); color: var(--ink);
+    box-shadow: 0 6px 16px -8px rgba(110,60,20,0.42);
+    display: grid; place-items: center; font-size: 18px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-btn:hover { background: var(--papaya); color: var(--white); transform: scale(1.08); box-shadow: 0 10px 22px -8px rgba(255,106,19,0.5); }
+  .nav-dots { display: flex; gap: 7px; align-items: center; }
+  .nav-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--cream-deep); transition: background 0.25s, transform 0.25s;
+  }
+  .nav-dot.active { background: var(--papaya); transform: scale(1.4); }
+
+  /* ---- signature ---- */
+  .sign { margin-top: 92px; text-align: center; }
+  .sign .from { font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); }
+  .sign .who {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: 64px;
+    color: var(--ink);
+    line-height: 1;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  .sign .rule { width: 120px; height: 2px; background: var(--papaya); border-radius: 2px; margin: 14px auto 0; opacity: 0.6; }
+  .sign .tag { margin-top: 22px; font-size: 13px; color: var(--ink-soft); opacity: 0.65; }
+
+  @media (max-width: 720px) {
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .card.wide, .card.tall, .card.art { grid-column: span 2; }
+    .card.art .inner { flex-direction: column; gap: 18px; }
+    .card.art img { width: 100%; max-width: 320px; }
+    .card.art .note { text-align: center; padding: 0 6px; }
+  }
+</style>
+</head>
+<body>
+  <div class="bg-deco">
+    <div class="glow a"></div>
+    <div class="glow b"></div>
+  </div>
+  <div class="floaters" id="floaters"></div>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="kicker">feliz aniversário, Meri</div>
+      <h1><span class="l1">Parabéns,</span><span class="l2">moça!</span></h1>
+      <p>lá se vai um ano, mais velha kkkkk, para aquela pessoa tão especial que me aguenta por horas no véi, na faculdade, no Discord, até em filmes.<br /><br />hoje é seu dia 🧡</p>
+    </header>
+
+    <section class="gallery">
+      <figure class="card wide reveal">
+        <img src="img/galera.png" alt="A turma reunida" />
+        <figcaption class="cap">a nossa turma 💛</figcaption>
+        <p class="sub">amigos tão especiais que não pensei que em tão pouco tempo fôssemos criar essa conexão</p>
+      </figure>
+
+      <figure class="card tall reveal">
+        <img src="img/dupla.png" alt="Cafeteria em São Miguel" />
+        <figcaption class="cap">aquele dia em São Miguel</figcaption>
+        <p class="sub">uma das minhas primeiras viagens, peguei 40km sem conhecer a pista só pra experimentar um café hyperfaturado com vc</p>
+      </figure>
+
+      <figure class="card art reveal">
+        <div class="inner">
+          <img src="img/desenho.png" alt="Desenho chibi feito pelo Kellyson" />
+          <div class="note">
+            <div class="big">Esse aqui eu <em>fiz pra você</em>.</div>
+            <p>Fiz esse desenho há um tempo e, mesmo não tendo o seu hiperfoco e talento absurdo para desenhar e pintar, me fez muito bem fazer isso. Adorei desenhar, pintar, tudo! Botei todo o carinho que cabia na nossa versão chibi com direito a blusa da McLaren e da Red Bull. 🧡</p>
+            <p class="ps">P.S.: caprichei na pintura, mas ainda tô umas 400 horas de prática atrás de você.</p>
+          </div>
+        </div>
+      </figure>
+    </section>
+
+    <section class="switch-section reveal">
+      <div class="switch-header">
+        <div class="eyebrow">Nintendo Switch</div>
+        <h3>jogos pra jogar <em>juntos</em></h3>
+        <p>multiplayer local — porque madrugada boa é madrugada com boa companhia</p>
+      </div>
+      <div class="carousel-wrap">
+        <div class="carousel" id="carousel">
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFF0E0;">🏎️</div>
+            <div class="g-name">Mario Kart 8 Deluxe</div>
+            <div class="g-genre">Corrida</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#EDF4FF;">🥊</div>
+            <div class="g-name">Super Smash Bros. Ultimate</div>
+            <div class="g-genre">Luta</div>
+            <div class="g-players"><span class="dot"></span> até 8 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFF0F0;">🍳</div>
+            <div class="g-name">Overcooked! All You Can Eat</div>
+            <div class="g-genre">Co-op caótico</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#F0FFF4;">🎲</div>
+            <div class="g-name">Mario Party Superstars</div>
+            <div class="g-genre">Party game</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFF8E0;">👻</div>
+            <div class="g-name">Luigi's Mansion 3</div>
+            <div class="g-genre">Aventura co-op</div>
+            <div class="g-players"><span class="dot"></span> 2 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#F5F0FF;">⭐</div>
+            <div class="g-name">Kirby's Return to Dream Land</div>
+            <div class="g-genre">Plataforma</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFF0E0;">🚀</div>
+            <div class="g-name">Lovers in a Dangerous Spacetime</div>
+            <div class="g-genre">Ação co-op</div>
+            <div class="g-players"><span class="dot"></span> 2 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFEEEE;">👾</div>
+            <div class="g-name">Cuphead</div>
+            <div class="g-genre">Desafio/co-op</div>
+            <div class="g-players"><span class="dot"></span> 2 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#F0FFF8;">🧶</div>
+            <div class="g-name">Unravel Two</div>
+            <div class="g-genre">Plataforma co-op</div>
+            <div class="g-players"><span class="dot"></span> 2 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#EDF4FF;">🍄</div>
+            <div class="g-name">New Super Mario Bros. U Deluxe</div>
+            <div class="g-genre">Plataforma</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFF5E0;">🏗️</div>
+            <div class="g-name">Minecraft</div>
+            <div class="g-genre">Construção/sobrevivência</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#F0FFF4;">🐒</div>
+            <div class="g-name">Donkey Kong: Tropical Freeze</div>
+            <div class="g-genre">Plataforma</div>
+            <div class="g-players"><span class="dot"></span> 2 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#FFF0F8;">🎮</div>
+            <div class="g-name">Clubhouse Games: 51 Worldwide</div>
+            <div class="g-genre">Mini jogos</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#EEFAFF;">🌊</div>
+            <div class="g-name">Splatoon 3</div>
+            <div class="g-genre">Tiro/ação</div>
+            <div class="g-players"><span class="dot"></span> até 4 jogadores</div>
+          </div>
+
+          <div class="g-card">
+            <div class="icon" style="background:#F5F0FF;">💞</div>
+            <div class="g-name">It Takes Two</div>
+            <div class="g-genre">Co-op obrigatório</div>
+            <div class="g-players"><span class="dot"></span> 2 jogadores</div>
+          </div>
+
+        </div>
+        <div class="carousel-nav">
+          <button class="nav-btn" id="prev" aria-label="anterior">&#8592;</button>
+          <div class="nav-dots" id="dots"></div>
+          <button class="nav-btn" id="next" aria-label="próximo">&#8594;</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="message reveal">
+      <div class="mark">“</div>
+      <h2>Que esse novo ciclo venha com tudo de bom (lá vem eu ser genérico), mas adoro cada madrugada juntos. Que você tenha a <em>Força</em> necessária para tankar as provas faltantes do Aluísio, que terminemos a lista inteira de jogos e filmes que temos para ver, e os 3 jogos de Switch que ainda temos para jogar. Obrigado por ser essa amiga foda, Meri. 🧡</h2>
+    </section>
+
+    <footer class="sign reveal">
+      <div class="from">com carinho,</div>
+      <div class="who">Kellyson</div>
+      <div class="rule"></div>
+      <div class="tag">feito especialmente pra você ✨</div>
+    </footer>
+  </div>
+
+  <script>
+    // ---- carousel ----
+    (function () {
+      const carousel = document.getElementById('carousel');
+      const dotsWrap = document.getElementById('dots');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      const cards = carousel.querySelectorAll('.g-card');
+      const visibleCount = () => Math.round(carousel.offsetWidth / (220 + 18));
+      const pageCount = () => Math.ceil(cards.length / visibleCount());
+
+      // build dots
+      function buildDots() {
+        dotsWrap.innerHTML = '';
+        for (let i = 0; i < pageCount(); i++) {
+          const d = document.createElement('button');
+          d.className = 'nav-dot';
+          d.setAttribute('aria-label', 'página ' + (i + 1));
+          d.style.border = 'none';
+          d.style.cursor = 'pointer';
+          d.style.padding = '0';
+          d.addEventListener('click', () => goTo(i));
+          dotsWrap.appendChild(d);
+        }
+        updateDots();
+      }
+
+      function currentPage() {
+        const cardW = 220 + 18;
+        return Math.round(carousel.scrollLeft / (cardW * visibleCount()));
+      }
+
+      function updateDots() {
+        const dots = dotsWrap.querySelectorAll('.nav-dot');
+        const p = currentPage();
+        dots.forEach((d, i) => d.classList.toggle('active', i === p));
+      }
+
+      function goTo(page) {
+        const cardW = 220 + 18;
+        carousel.scrollTo({ left: page * cardW * visibleCount(), behavior: 'smooth' });
+      }
+
+      prevBtn.addEventListener('click', () => goTo(Math.max(0, currentPage() - 1)));
+      nextBtn.addEventListener('click', () => goTo(Math.min(pageCount() - 1, currentPage() + 1)));
+      carousel.addEventListener('scroll', updateDots, { passive: true });
+      window.addEventListener('resize', buildDots);
+      buildDots();
+    })();
+
+    // ---- trigger hero entrance animations once on load ----
+    requestAnimationFrame(function () { document.body.classList.add('anim'); });
+
+    // ---- confetti dots in the hero ----
+    (function () {
+      const hero = document.querySelector('.hero');
+      const colors = ['#FF6A13', '#FFB347', '#FFD7B0', '#2A211B', '#FF8A3D'];
+      for (let i = 0; i < 14; i++) {
+        const d = document.createElement('div');
+        d.className = 'confetti';
+        const size = 8 + Math.random() * 10;
+        d.style.width = size + 'px';
+        d.style.height = size * (0.4 + Math.random() * 0.8) + 'px';
+        d.style.background = colors[i % colors.length];
+        d.style.left = Math.random() * 100 + '%';
+        d.style.top = Math.random() * 100 + '%';
+        d.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+        d.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        d.style.opacity = (0.3 + Math.random() * 0.35).toFixed(2);
+        hero.appendChild(d);
+      }
+    })();
+
+    // ---- floating hyperfocus icons (F1 helmet, checkered flag, lightsaber, paint palette, paintbrush, star) ----
+    (function () {
+      const icons = {
+        helmet: '<path d="M3 13a9 9 0 0 1 17.5-3H11a4 4 0 0 0-4 4v3.5A9 9 0 0 1 3 13Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 14h10a8.9 8.9 0 0 1-1 4H11a2 2 0 0 1-2-2v-0a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+        flag: '<path d="M5 3v18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M5 4h14v9H5z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 4h3.5v3H5zM12 4h3.5v3H12zM8.5 7H12v3H8.5zM15.5 7H19v3h-3.5zM5 10h3.5v3H5zM12 10h3.5v3H12z" fill="currentColor"/>',
+        saber: '<rect x="14" y="3" width="3.4" height="13" rx="1.7" transform="rotate(40 15.7 9.5)" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="6.5" y="15" width="4" height="5.5" rx="1.2" transform="rotate(40 8.5 17.75)" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+        palette: '<path d="M12 3a9 9 0 0 0 0 18c1.2 0 1.8-1 1.5-2-.4-1.3.5-2.3 1.8-2.3H17a4 4 0 0 0 4-4c0-5-4-9.7-9-9.7Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="11" r="1.1" fill="currentColor"/><circle cx="11" cy="7.5" r="1.1" fill="currentColor"/><circle cx="15" cy="8" r="1.1" fill="currentColor"/>',
+        brush: '<path d="M3 21c2.5 0 4-1.5 4-3.5 0-1.4-1-2.5-2.4-2.5C3 15 3 17 3 21Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 16.5 18 6a2 2 0 0 0-2.8-2.8L5 13.5" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+        star: '<path d="M12 3l2.1 5.6L20 9.2l-4.5 3.8L17 19l-5-3.4L7 19l1.5-6L4 9.2l5.9-.6L12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+      };
+      const keys = Object.keys(icons);
+      const layer = document.getElementById('floaters');
+      const placements = [
+        { x: 6,  y: 16, s: 64 }, { x: 86, y: 12, s: 52 }, { x: 14, y: 62, s: 48 },
+        { x: 90, y: 56, s: 70 }, { x: 70, y: 82, s: 54 }, { x: 30, y: 88, s: 46 },
+        { x: 50, y: 8,  s: 40 }, { x: 4,  y: 90, s: 58 }
+      ];
+      placements.forEach((p, i) => {
+        const key = keys[i % keys.length];
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('width', p.s);
+        svg.setAttribute('height', p.s);
+        svg.innerHTML = icons[key];
+        svg.style.left = p.x + '%';
+        svg.style.top = p.y + '%';
+        svg.style.setProperty('--r', (Math.random() * 30 - 15) + 'deg');
+        svg.style.animationDuration = (7 + Math.random() * 6).toFixed(1) + 's';
+        svg.style.animationDelay = (-Math.random() * 6).toFixed(1) + 's';
+        layer.appendChild(svg);
+      });
+    })();
+
+    // ---- scroll reveal ----
+    (function () {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.style.transitionDelay = (e.target.dataset.delay || '0') + 'ms';
+            e.target.classList.add('in');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.18 });
+      document.querySelectorAll('.reveal').forEach((el, i) => {
+        if (el.classList.contains('card')) el.dataset.delay = (i % 3) * 120;
+        obs.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
